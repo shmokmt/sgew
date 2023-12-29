@@ -25,14 +25,15 @@ type LsOutputs struct {
 }
 
 func (c *LsCmd) Run() error {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/user/webhooks/event/settings/all", "https://api.sendgrid.com")
+	endpoint := "/v3/user/webhooks/event/settings/all"
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), endpoint, "https://api.sendgrid.com")
 	request.Method = "GET"
 	response, err := sendgrid.API(request)
 	if err != nil {
 		return err
 	}
 	if response.StatusCode != 200 {
-		return errors.New("expected status: 200, got status: " + fmt.Sprint(response.StatusCode))
+		return errors.New(endpoint + ": expected status is 200, got status is " + fmt.Sprint(response.StatusCode))
 	}
 	outputs := &LsOutputs{}
 	err = json.Unmarshal([]byte(response.Body), outputs)

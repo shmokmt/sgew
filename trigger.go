@@ -13,14 +13,15 @@ type TriggerCmd struct {
 }
 
 func (c *TriggerCmd) Run() error {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/user/webhooks/event/test", "https://api.sendgrid.com")
+	endpoint := "/v3/user/webhooks/event/test"
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), endpoint, "https://api.sendgrid.com")
 	request.Method = "POST"
 	response, err := sendgrid.API(request)
 	if err != nil {
 		return err
 	}
 	if response.StatusCode != 204 {
-		return errors.New("expected status: 204, got status: " + fmt.Sprint(response.StatusCode))
+		return errors.New(endpoint + ": expected status is 204, got status is " + fmt.Sprint(response.StatusCode))
 	}
 	if err != nil {
 		return err
