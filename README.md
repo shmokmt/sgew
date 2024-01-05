@@ -6,7 +6,7 @@ SendGrid Event Webhook Debugger
 
 ```
 export SENDGRID_API_KEY=xxx
-ngrok authtoken xxx
+export NGROK_AUTHTOKEN=xxx
 ```
 
 ## Usage
